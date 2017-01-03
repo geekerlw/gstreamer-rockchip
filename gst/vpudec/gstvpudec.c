@@ -205,8 +205,6 @@ to_gst_pix_format (VPU_VIDEO_PIXEL_FMT pix_fmt)
   switch (pix_fmt) {
     case VPU_VIDEO_PIXEL_FMT_NV12:
       return GST_VIDEO_FORMAT_NV12;
-    case VPU_VIDEO_PIXEL_FMT_P010LE:
-      return GST_VIDEO_FORMAT_P010_10LE;
     default:
       return GST_VIDEO_FORMAT_UNKNOWN;
   }

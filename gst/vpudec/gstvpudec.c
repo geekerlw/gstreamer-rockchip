@@ -351,15 +351,22 @@ gst_vpudec_dec_loop (GstVideoDecoder * decoder)
   GstFlowReturn ret = GST_FLOW_OK;
 
   ret = gst_buffer_pool_acquire_buffer (vpudec->pool, &output_buffer, NULL);
-  if (ret != GST_FLOW_OK)
+  if ((ret != GST_FLOW_OK) && (ret != GST_FLOW_CUSTOM_ERROR_1))
     goto beach;
 
   frame = gst_video_decoder_get_oldest_frame (decoder);
 
   if (frame) {
+    if (ret == GST_FLOW_CUSTOM_ERROR_1) {
+      gst_video_decoder_drop_frame (decoder, frame);
+      GST_DEBUG_OBJECT (vpudec, "I want to drop a frame");
+      return;
+    }
+
     frame->output_buffer = output_buffer;
 
     output_buffer = NULL;
+
     ret = gst_video_decoder_finish_frame (decoder, frame);
 
     GST_TRACE_OBJECT (vpudec, "finish buffer ts=%" GST_TIME_FORMAT,
@@ -367,6 +374,7 @@ gst_vpudec_dec_loop (GstVideoDecoder * decoder)
 
     if (ret != GST_FLOW_OK)
       goto beach;
+
   } else {
     GST_WARNING_OBJECT (vpudec, "Decoder is producing too many buffers");
     gst_buffer_unref (output_buffer);

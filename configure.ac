@@ -5,7 +5,7 @@ dnl please read gstreamer/docs/random/autotools before changing this file
 dnl initialize autoconf
 dnl releases only do -Wall, git and prerelease does -Werror too
 dnl use a three digit version number for releases, and four for git/pre
-AC_INIT([GStreamer Plug-ins], [1.8.2], [https://github.com/rockchip-linux/gstreamer-rockchip], [gstreamer-rockchip])
+AC_INIT([GStreamer Plug-ins], [1.10.0], [https://github.com/rockchip-linux/gstreamer-rockchip], [gstreamer-rockchip])
 
 AG_GST_INIT
 
@@ -31,6 +31,9 @@ dnl use pretty build output with automake >= 1.11
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])],
   [AM_DEFAULT_VERBOSITY=1
    AC_SUBST(AM_DEFAULT_VERBOSITY)])
+
+dnl PKG_CONFIG_SYSROOT_DIR is a valid environment variable
+m4_pattern_allow(PKG_CONFIG_SYSROOT_DIR)
 
 dnl our libraries and install dirs use GST_API_VERSION in the filename
 dnl to allow side-by-side installation of different API versions
@@ -208,7 +211,7 @@ GTK_REQ=3.0.0
 dnl *** set variables based on configure arguments ***
 
 dnl set license and copyright notice
-GST_LICENSE="LGPL"
+GST_LICENSE="GPL"
 AC_DEFINE_UNQUOTED(GST_LICENSE, "$GST_LICENSE", [GStreamer license])
 AC_SUBST(GST_LICENSE)
 
@@ -249,10 +252,14 @@ dnl Non ported plugins (non-dependant, then dependant)
 dnl Make sure you have a space before and after all plugins
 
 dnl these are all the gst plug-ins, compilable without additional libs
-AG_GST_CHECK_PLUGIN(vpudec)
-AG_GST_CHECK_PLUGIN(rksink)
 
 dnl of EXT plugins
+AM_CONDITIONAL(USE_ROCKCHIPMPP, false)
+AM_CONDITIONAL(USE_VPUDEC, false)
+AM_CONDITIONAL(USE_KMS, false)
+AM_CONDITIONAL(USE_X11, false)
+AM_CONDITIONAL(USE_DRMROCKCHIP, false)
+AM_CONDITIONAL(USE_ARMMALI, false)
 
 dnl *** finalize CFLAGS, LDFLAGS, LIBS
 
@@ -305,7 +312,7 @@ AC_SUBST(GST_LIBS)
 
 dnl LDFLAGS really should only contain flags, not libs - they get added before
 dnl whatevertarget_LIBS and -L flags here affect the rest of the linking
-GST_ALL_LDFLAGS="-no-undefined"
+GST_ALL_LDFLAGS="-Wl,-no-undefined"
 AC_SUBST(GST_ALL_LDFLAGS)
 
 dnl this really should only contain flags, not libs - they get added before
@@ -318,22 +325,32 @@ PKG_CHECK_MODULES(GST_ALLOCATORS, gstreamer-allocators-1.0,
 	HAVE_GST_ALLOCATORS=yes, )
 PKG_CHECK_MODULES(GST_VIDEO, gstreamer-video-[$GST_API_VERSION], [$GST_REQ], yes)
 
-PKG_CHECK_MODULES([ROCKCHIP_MPP], [rockchip_mpp])
-PKG_CHECK_MODULES([ROCKCHIP_VPU], [rockchip_vpu])
-PKG_CHECK_MODULES([DRM], [libdrm], HAVE_KMS=yes, HAVE_KMS=no)
-
-
-dnl *** X11 ***
-AG_GST_CHECK_FEATURE(X, [X libraries and plugins],
-                  [ximagesink], [
-  AG_GST_PKG_CHECK_MODULES(X, x11)
+dnl *** rockchip mpp ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_ROCKCHIPMPP, true)
+AG_GST_CHECK_FEATURE(ROCKCHIPMPP, [rockchip mpp libraries], rockchipmpp, [
+  PKG_CHECK_MODULES([ROCKCHIP_MPP], [rockchip_mpp >= 1.3.0],
+    HAVE_ROCKCHIPMPP=yes, HAVE_ROCKCHIPMPP=no)
 ])
 
-dnl *** eglgles ***
-AC_DEFINE(USE_EGL_X11, [1], [Use X11 EGL window system])
-AG_GST_CHECK_FEATURE(X, [GLES and EGL],
-                  [eglglessink], [
-  AG_GST_PKG_CHECK_MODULES(EGLGLES, egl glesv2)
+dnl *** rockchip vpu dec ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_VPUDEC, true)
+AG_GST_CHECK_FEATURE(VPUDEC, [rockchip vpu legacy libraries], vpudec, [
+  PKG_CHECK_MODULES([ROCKCHIP_VPU], [rockchip_vpu < 0.3.0],
+    HAVE_VPUDEC=yes, HAVE_VPUDEC=no)
+])
+
+dnl *** kms ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_KMS, true)
+AG_GST_CHECK_FEATURE(KMS, [drm/kms libraries], kms, [
+  AG_GST_PKG_CHECK_MODULES(GST_ALLOCATORS, gstreamer-allocators-1.0)
+  PKG_CHECK_MODULES([KMS_DRM], [libdrm >= 2.4.55], HAVE_KMS=yes, HAVE_KMS=no)
+])
+
+translit(dnm, m, l) AM_CONDITIONAL(USE_DRMROCKCHIP, true)
+AG_GST_CHECK_FEATURE(DRMROCKCHIP, [rockchip drm/kms libraries], drmrockchip, [
+  PKG_CHECK_MODULES([X11], [x11], HAVE_X11=yes, HAVE_X11=no)
+  PKG_CHECK_MODULES([DRMROCKCHIP], [libdrm_rockchip],
+    HAVE_DRMROCKCHIP=yes, HAVE_DRMROCKCHIP=no)
 ])
 
 dnl keep this alphabetic per directory, please
@@ -344,8 +361,9 @@ gst-libs/gst/Makefile
 gst-libs/gst/vpudec/Makefile
 gst/Makefile
 gst/vpudec/Makefile
-gst/rksink/Makefile
-po/Makefile.in
+gst/rockchipmpp/Makefile
+gst/rkximage/Makefile
+gst/kms/Makefile
 common/Makefile
 common/m4/Makefile
 m4/Makefile

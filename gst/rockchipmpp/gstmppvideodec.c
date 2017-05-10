@@ -120,9 +120,6 @@ mpp_frame_type_to_gst_video_format (MppFrameFormat fmt)
     case MPP_FMT_YUV420SP:
       return GST_VIDEO_FORMAT_NV12;
       break;
-    case MPP_FMT_YUV420SP_10BIT:
-      return GST_VIDEO_FORMAT_P010_10LEC;
-      break;
     default:
       return GST_VIDEO_FORMAT_UNKNOWN;
       break;

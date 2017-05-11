@@ -38,6 +38,13 @@ G_BEGIN_DECLS
 typedef struct _GstMppMemory GstMppMemory;
 typedef struct _GstMppAllocator GstMppAllocator;
 typedef struct _GstMppAllocatorClass GstMppAllocatorClass;
+typedef enum _GstMppReturn GstMppReturn;
+
+enum _GstMppReturn {
+  GST_MPP_OK = 0,
+  GST_MPP_ERROR = -1,
+  GST_MPP_BUSY = -2
+};
 
 #define GST_MPP_MEMORY_CAST(mem) \
 	((GstMppMemory *) (mem))

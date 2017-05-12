@@ -657,7 +657,6 @@ gst_mpp_video_dec_change_state (GstElement * element, GstStateChange transition)
     gst_mpp_video_dec_unlock (self);
     gst_mpp_video_dec_sendeos (decoder);
     gst_pad_stop_task (decoder->srcpad);
-    self->mpi->reset (self->mpp_ctx);
   }
 
   return GST_ELEMENT_CLASS (parent_class)->change_state (element, transition);

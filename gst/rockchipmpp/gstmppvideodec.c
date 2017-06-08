@@ -230,23 +230,18 @@ gst_mpp_video_to_frame_format (MppFrame mframe, GstVideoInfo * info,
   return TRUE;
 }
 
-static GstMppReturn
+static gboolean
 gst_mpp_video_acquire_frame_format (GstMppVideoDec * self)
 {
-  MPP_RET ret;
+  MPP_RET mret;
   MppFrame mframe = NULL;
-  ret = self->mpi->decode_get_frame (self->mpp_ctx, &mframe);
-  if (ret == MPP_ERR_TIMEOUT)
-    return GST_MPP_BUSY;
-  if (ret || NULL == mframe) {
-    GST_ERROR_OBJECT (self, "can't get valid info %d", ret);
-    return GST_MPP_ERROR;
+  mret = self->mpi->decode_get_frame (self->mpp_ctx, &mframe);
+  if (mret || NULL == mframe) {
+	GST_ERROR_OBJECT (self, "can't get valid info %d", mret);
+	return FALSE;
   }
 
-  if (gst_mpp_video_to_frame_format (mframe, &self->info, &self->align))
-    return GST_MPP_OK;
-  else
-    return GST_MPP_ERROR;
+  return gst_mpp_video_to_frame_format (mframe, &self->info, &self->align);
 }
 
 static gboolean
@@ -504,9 +499,6 @@ gst_mpp_video_dec_handle_frame (GstVideoDecoder * decoder,
   if (!gst_buffer_pool_is_active (pool)) {
     GstBuffer *codec_data;
     gint block_flag = MPP_POLL_BLOCK;
-    /* at least 50ms */
-    gint64 block_timeout = 50;
-    GstMppReturn ret = GST_MPP_OK;
 
     codec_data = self->input_state->codec_data;
     if (codec_data) {
@@ -534,11 +526,7 @@ gst_mpp_video_dec_handle_frame (GstVideoDecoder * decoder,
     self->mpi->control (self->mpp_ctx, MPP_SET_OUTPUT_BLOCK,
         (gpointer) & block_flag);
 
-    self->mpi->control (self->mpp_ctx, MPP_SET_OUTPUT_BLOCK_TIMEOUT,
-        (gpointer) & block_timeout);
-
-    ret = gst_mpp_video_acquire_frame_format (self);
-    if (ret == GST_MPP_OK) {
+	if (gst_mpp_video_acquire_frame_format (self)) {
       GstVideoCodecState *output_state;
       GstVideoInfo *info = &self->info;
       GstStructure *config = gst_buffer_pool_get_config (pool);
@@ -561,12 +549,8 @@ gst_mpp_video_dec_handle_frame (GstVideoDecoder * decoder,
       if (gst_buffer_pool_set_active (self->pool, TRUE) == FALSE)
         goto error_activate_pool;
 
-      block_timeout = -1;
-      self->mpi->control (self->mpp_ctx, MPP_SET_OUTPUT_BLOCK_TIMEOUT,
-          (gpointer) & block_timeout);
-
       self->mpi->control (self->mpp_ctx, MPP_DEC_SET_INFO_CHANGE_READY, NULL);
-    } else if (ret == GST_MPP_ERROR) {
+    } else {
       goto not_negotiated;
     }
     GST_VIDEO_DECODER_STREAM_LOCK (decoder);

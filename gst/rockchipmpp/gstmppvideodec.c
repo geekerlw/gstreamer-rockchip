@@ -237,8 +237,8 @@ gst_mpp_video_acquire_frame_format (GstMppVideoDec * self)
   MppFrame mframe = NULL;
   mret = self->mpi->decode_get_frame (self->mpp_ctx, &mframe);
   if (mret || NULL == mframe) {
-	GST_ERROR_OBJECT (self, "can't get valid info %d", mret);
-	return FALSE;
+    GST_ERROR_OBJECT (self, "can't get valid info %d", mret);
+    return FALSE;
   }
 
   return gst_mpp_video_to_frame_format (mframe, &self->info, &self->align);
@@ -526,7 +526,7 @@ gst_mpp_video_dec_handle_frame (GstVideoDecoder * decoder,
     self->mpi->control (self->mpp_ctx, MPP_SET_OUTPUT_BLOCK,
         (gpointer) & block_flag);
 
-	if (gst_mpp_video_acquire_frame_format (self)) {
+    if (gst_mpp_video_acquire_frame_format (self)) {
       GstVideoCodecState *output_state;
       GstVideoInfo *info = &self->info;
       GstStructure *config = gst_buffer_pool_get_config (pool);

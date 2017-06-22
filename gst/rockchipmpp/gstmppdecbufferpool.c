@@ -136,7 +136,7 @@ gst_mpp_dec_buffer_pool_stop (GstBufferPool * bpool)
       GstBuffer *buffer = pool->buffers[n];
 
       pool->buffers[n] = NULL;
-      gst_buffer_unref (buffer);
+      pclass->release_buffer (bpool, buffer);
 
       g_atomic_int_add (&pool->num_queued, -1);
     }
@@ -279,11 +279,13 @@ mpp_eos:
   }
 mpp_error:
   {
+    *buffer = NULL;
     GST_ERROR_OBJECT (pool, "mpp error %d", ret);
     return GST_FLOW_ERROR;
   }
 no_buffer:
   {
+    *buffer = NULL;
     GST_ERROR_OBJECT (pool, "No free buffer found in the pool at index %d",
         buf_index);
     return GST_FLOW_ERROR;
@@ -438,7 +440,7 @@ gst_mpp_dec_buffer_pool_new (GstMppVideoDec * dec, GstCaps * caps)
   /* ERROR */
 allocator_failed:
   {
-    GST_ERROR_OBJECT (pool, "Failed to create vpu allocator");
+    GST_ERROR_OBJECT (pool, "Failed to create mpp allocator");
     gst_object_unref (pool);
     return NULL;
   }

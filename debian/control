@@ -1,7 +1,20 @@
 Source: gstreamer1.0-rockchip
 Priority: optional
 Maintainer: Randy Li <randy.li@rock-chips.com>
-Build-Depends: debhelper (>= 9), autotools-dev
+Build-Depends: 
+	debhelper (>= 9), 
+	autotools-dev,
+	autopoint,
+	libtool,
+	pkg-config,
+	git,
+	autoconf,
+	automake,
+	libgtk-3-dev,
+	liborc-0.4-dev,
+	librockchip-mpp-dev,
+	libgstreamer1.0-dev,
+	libgstreamer-plugins-base1.0-dev
 Standards-Version: 3.9.8
 Section: libs
 Homepage: http://www.rock-chips.com/
@@ -10,5 +23,9 @@ Homepage: http://www.rock-chips.com/
 
 Package: gstreamer1.0-rockchip1
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: 
+	${shlibs:Depends}, 
+	${misc:Depends},
+	libgstreamer1.0-0,
+	libgstreamer-plugins-base1.0-0
 Description: The Gstreamer plugins for Rockchip RK3xxx platform.

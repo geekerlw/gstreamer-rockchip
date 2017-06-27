@@ -1,0 +1,1623 @@
+commit 9bd23e501de38aa6f9ad48ca56a05ae450e9bbed
+Author: Steven Lee <geekerlw@gmail.com>
+Date:   Tue Jun 27 13:36:32 2017 +0800
+
+    add libdrm-rockchip dependencies to build rkximage
+    
+    Signed-off-by: Steven Lee <geekerlw@gmail.com>
+
+commit d53a0c0318b1d3259842e282ef9a6d6a2379b60a
+Author: geekerlw <geekerlw@gmail.com>
+Date:   Fri Jun 23 22:07:37 2017 +0800
+
+    release version 1.10-5 in ppa
+    
+    Signed-off-by: geekerlw <geekerlw@gmail.com>
+
+commit 17a783876982382f09a7a9f5f1a32730d5e8e004
+Author: geekerlw <geekerlw@gmail.com>
+Date:   Fri Jun 23 07:40:07 2017 +0800
+
+    current depends for gstreamer-rockchip
+    
+    Signed-off-by: geekerlw <geekerlw@gmail.com>
+
+commit ce8eeae4c13fc0a68a0eb63864a4b6628f779ce6
+Author: geekerlw <geekerlw@gmail.com>
+Date:   Fri Jun 23 07:39:09 2017 +0800
+
+    add deb build options to debian rules
+    
+    Signed-off-by: geekerlw <geekerlw@gmail.com>
+
+commit 254e7c0a49f9b6e04eb6fa4ad10e3501b18e43f8
+Author: geekerlw <geekerlw@gmail.com>
+Date:   Fri May 12 07:30:55 2017 +0000
+
+    mppvideodec: remove mpi->reset func in change_state
+
+commit 9d0766ee42264812da403a9e2e055c65ef11a309
+Author: geekerlw <geekerlw@gmail.com>
+Date:   Thu May 11 06:50:22 2017 +0000
+
+    sync with upsteam/develop
+
+commit 83ab7920a8de467a82f75a3ae10078db59448257
+Merge: 951dce9 9b9105a
+Author: geekerlw <geekerlw@gmail.com>
+Date:   Thu May 11 06:46:31 2017 +0000
+
+    Merge remote-tracking branch 'upsteam/develop' into steven-dev
+
+commit 951dce943573f7487787268ee6135351821668ce
+Author: geekerlw <geekerlw@gmail.com>
+Date:   Wed May 10 06:44:09 2017 +0000
+
+    remove 10bit support in rockchipmpp plugin
+
+commit d3674d4b6ae0d311c2a88e6c8821d0e9261690cc
+Merge: ffd7087 3527c7d
+Author: geekerlw <geekerlw@gmail.com>
+Date:   Wed May 10 06:41:38 2017 +0000
+
+    Merge remote-tracking branch 'upsteam/develop' into steven-dev
+
+commit 9b9105a4fa6690742c16aa7b1a235c032b9f422b
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Mon May 8 18:22:50 2017 +0800
+
+    rockchipmpp: fixup for MPEG-4 Part 2/MPEG-2
+    
+    Since there is not a parser for them at Gstreamer, you need
+    to wait valid buffers are pushed into media library.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 3081b54b1df5553a0d6e705ce12e141bdc50db92
+Author: Jacob Chen <jacob-chen@iotwrt.com>
+Date:   Mon May 8 11:01:26 2017 +0800
+
+    eglgles: remove this plugins
+    
+    It could only be used in x11 and actually we don't need egl in x11.
+    So let's clean it....
+    
+    Signed-off-by: Jacob Chen <jacob-chen@iotwrt.com>
+
+commit 09c98aed76739014653c6b18fecb47c5cea033c6
+Author: Jacob Chen <jacob-chen@iotwrt.com>
+Date:   Thu May 4 10:37:20 2017 +0800
+
+    rkximage: workaround for vop scale limition
+    
+    VOP are weak to do scale, sometimes it will make display broken.
+    We can skip some line to ease it.
+    
+    Signed-off-by: Jacob Chen <jacob-chen@iotwrt.com>
+
+commit 52b47e77a835487e0cd7ee5d32d4c719a5d310a9
+Author: Jacob Chen <jacob-chen@iotwrt.com>
+Date:   Mon Apr 10 09:23:03 2017 +0800
+
+    rkximage: fix wrong display size
+    
+    Signed-off-by: Jacob Chen <jacob-chen@iotwrt.com>
+
+commit 8d525802544d2ba8e5e3f6f8d1262c8ef5b97f5c
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Thu Apr 27 10:04:15 2017 +0800
+
+    build: update rules for rkximagesink/eglglessink
+    
+    KMS is miss for rkximagesink
+    also
+    use  USE_DRMROCKCHIPrather than USE_ROCKCHIPDRM
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit e532ae126895dfb8e5c803b0773073f9f0aee51b
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Tue Apr 25 14:17:54 2017 +0800
+
+    rockchipmpp: allow VP9 codec format
+    
+    In the new platform, the VP9 is supported by the
+    RKV decoder.
+    A various minor fix are also included.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 9b158e2c92e748bdb2488c317d2a0c393f73f7aa
+Author: ayaka <ayaka@soulik.info>
+Date:   Sat Apr 22 11:19:07 2017 +0800
+
+    add some i18n header and place for glib-compat
+    
+    Original version from gst-plugins-good.
+    
+    Signed-off-by: ayaka <ayaka@soulik.info>
+
+commit 6f34f38b089bbc138199956ac04f839d8d136806
+Author: ayaka <ayaka@soulik.info>
+Date:   Fri Apr 21 22:33:53 2017 +0800
+
+    build: update configure script and remove m4 files
+    
+    Those m4 files are just standard one from the automake,
+    no need to keep those thing maybe too old.
+    
+    Also in this commit remove the stub rksink and rename
+    the plugin name of rkximage to drmrockhip only in configure.
+    
+    Signed-off-by: ayaka <ayaka@soulik.info>
+
+commit 501816d36a3737996fd3744cbfd9f84fb3b09c99
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Tue May 9 11:34:02 2017 +0800
+
+    rockchipmpp: decoder: drop more frames
+    
+    Those frames could be dropped or they would be a screen mess
+    in a part of or the whole frame.
+    
+    But some video standards forbid to drop those frames. You may
+    need to revert this commit.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 37339e227d74244bd81c9e40e55ff02494d404b1
+Author: ayaka <ayaka@soulik.info>
+Date:   Sun Mar 26 14:15:36 2017 +0800
+
+    [WIP]: rockchipmpp: fix color ouput format
+    
+    You need to update the gst-plugins-base with the new pixel format
+    patch. Or compiling will failed.
+    
+    Signed-off-by: ayaka <ayaka@soulik.info>
+
+commit 3527c7d3d1bfcf696333e04cd9bf61cc6d490958
+Author: Jacob Chen <jacob-chen@iotwrt.com>
+Date:   Mon May 8 11:01:26 2017 +0800
+
+    remove eglglessink
+    
+    It could only be used in x11 and actually we don't need egl in x11.
+    So let's clean it....
+    
+    Signed-off-by: Jacob Chen <jacob-chen@iotwrt.com>
+
+commit 11a631d71e03a6895e84e2591249ffb22809481d
+Author: Jacob Chen <jacob-chen@iotwrt.com>
+Date:   Thu May 4 10:37:20 2017 +0800
+
+    rkximage: workaround for vop scale limition
+    
+    VOP are weak to do scale, sometimes it will make display broken.
+    We can skip some line to ease it.
+    
+    Signed-off-by: Jacob Chen <jacob-chen@iotwrt.com>
+
+commit 60613b869d3e581bcb0f216295f452cd690f9d24
+Author: Jacob Chen <jacob-chen@iotwrt.com>
+Date:   Mon Apr 10 09:23:03 2017 +0800
+
+    rkximage: fix wrong display size
+    
+    Signed-off-by: Jacob Chen <jacob-chen@iotwrt.com>
+
+commit e18a9eedec51608caf36cc02c7fb3765bf5acc8a
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Thu Apr 27 10:04:15 2017 +0800
+
+    build: update rules for rkximagesink/eglglessink
+    
+    KMS is miss for rkximagesink
+    also
+    use  USE_DRMROCKCHIPrather than USE_ROCKCHIPDRM
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit d33f9c17ca156a80891612ecde49789c4bfb5bed
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Tue Apr 25 14:17:54 2017 +0800
+
+    rockchipmpp: allow VP9 codec format
+    
+    In the new platform, the VP9 is supported by the
+    RKV decoder.
+    A various minor fix are also included.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 50eb272a6128e188ba5b306f75a13195dd786101
+Author: ayaka <ayaka@soulik.info>
+Date:   Sat Apr 22 11:19:07 2017 +0800
+
+    add some i18n header and place for glib-compat
+    
+    Original version from gst-plugins-good.
+    
+    Signed-off-by: ayaka <ayaka@soulik.info>
+
+commit 5e5e37346e819961014c64d18903bb8a08cec309
+Author: ayaka <ayaka@soulik.info>
+Date:   Fri Apr 21 22:33:53 2017 +0800
+
+    build: update configure script and remove m4 files
+    
+    Those m4 files are just standard one from the automake,
+    no need to keep those thing maybe too old.
+    
+    Also in this commit remove the stub rksink and rename
+    the plugin name of rkximage to drmrockhip only in configure.
+    
+    Signed-off-by: ayaka <ayaka@soulik.info>
+
+commit 0a43b166387e7342a9669bc39173b149a2ba2587
+Author: ayaka <ayaka@soulik.info>
+Date:   Sun Mar 26 14:15:36 2017 +0800
+
+    rockchipmpp: fix color ouput format
+    
+    Signed-off-by: ayaka <ayaka@soulik.info>
+
+commit ffd7087bd13a374c1086dafd6fdc12c7b00b4dda
+Author: geekerlw <geekerlw@gmail.com>
+Date:   Fri Apr 21 08:34:22 2017 +0000
+
+    enable compile eglglessink without x11
+
+commit 4a31754f50b85e4d8998217aff42c5aeed501365
+Merge: 00cf130 b26743b
+Author: geekerlw <geekerlw@gmail.com>
+Date:   Fri Apr 21 08:04:43 2017 +0000
+
+    Merge remote-tracking branch 'upsteam/rkvideo' into steven-dev
+
+commit 267436bccbddf4ca1bea2d30787e6b830aaa5b90
+Author: ayaka <ayaka@soulik.info>
+Date:   Thu Apr 6 09:49:01 2017 +0800
+
+    Revert "rockchipmpp: terminate future decoding when state change"
+    
+    This reverts commit 31f4761f62eca5365b0531df25e94075c8d7010c.
+    It is a bug from Rockchip MPP.
+    
+    Signed-off-by: ayaka <ayaka@soulik.info>
+
+commit 5467ac213882d4f9fdd681fffc91cf04c28958e5
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Sat Apr 1 12:16:26 2017 +0800
+
+    rockchipmpp: update the license of a missing header file
+    
+    It should be GPLv2.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit b8132bcfcd23a53c7b1fa9343cf9d1e00d252bbb
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Fri Mar 31 14:56:28 2017 +0800
+
+    rockchipmpp: terminate future decoding when state change
+    
+    It would break decoding of those video with resolution change
+    feature.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 2e141fdee32083e94b30f93ff8eaa5fbea6d54cb
+Author: ayaka <ayaka@soulik.info>
+Date:   Fri Mar 24 01:02:15 2017 +0800
+
+    rkvideo: split the two elements into different plugins
+    
+    They use different display APIs.
+    
+    Signed-off-by: ayaka <ayaka@soulik.info>
+
+commit 95c5f83e6d1eeeaac7d92dda30d45e271264aa05
+Author: ayaka <ayaka@soulik.info>
+Date:   Thu Mar 23 22:46:52 2017 +0800
+
+    rksink: fix the error in build rules
+    
+    I would like to split the two video sink elements from a
+    plugin next time, as they depend on the different libraries.
+    
+    Signed-off-by: ayaka <ayaka@soulik.info>
+
+commit e1cbdf3779aff0590de129d1209368749c4059f1
+Author: Jacob Chen <jacob-chen@iotwrt.com>
+Date:   Thu Mar 16 10:01:48 2017 +0800
+
+    build: add rksink
+    
+    Signed-off-by: Jacob Chen <jacob-chen@iotwrt.com>
+
+commit 442e43438b8f321eece8d5504a141f5524ef1f8e
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Mon Mar 13 14:01:12 2017 +0800
+
+    kmssink: support 10 bit color depth pixel format
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 41c08129c30ff907208c53e154d37e3e9e51002a
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Sat Mar 4 23:43:22 2017 +0800
+
+    kms: kms from gst-plugins-bad
+    
+    From 4b3baab40a3baa2042985a0fce6421661cbffca2
+    I just keep it here to save my time from flight the Debian
+    building system. It would be dropped in yocto time.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit d3be038ee5684e96b16979b2448b5142dd3994cb
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Mon Mar 13 13:47:55 2017 +0800
+
+    rksink: remove kmssink
+    
+    Anyway, I want to remove it from this plugin totally, but I have
+    to keep it to work with terrible build system of Debian.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 5a59bd116759a13664388b707d9d86fcc322132e
+Author: Jacob Chen <jacob-chen@iotwrt.com>
+Date:   Wed Mar 8 09:17:10 2017 +0800
+
+    rksink: kmssink: comment gst_kms_sink_sync
+    
+    gst_kms_sink_sync is for ti platform since their drmmodesetplane is async.
+    In rockchip platform, it's sync by default, so we don't have to sync twice.
+    
+    Signed-off-by: Jacob Chen <jacob-chen@iotwrt.com>
+
+commit a13d697358d2874a54f96734655046bf279cb3ec
+Author: Jacob Chen <jacob-chen@iotwrt.com>
+Date:   Wed Mar 8 00:49:33 2017 +0800
+
+    rksink: copy kmsutils to rkimagesink
+    
+    To ensure separability.
+    
+    Signed-off-by: Jacob Chen <jacob-chen@iotwrt.com>
+    
+    # Conflicts:
+    #	gst/rksink/rkximage/ximagesink.c
+
+commit eae7d4fa310f893b943dd8232c35012b6343b606
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Mon Mar 6 17:22:40 2017 +0800
+
+    rockchipmpp: allocating buffers using the frame info from mpp
+    
+    It would be possible to support interlace video and get more flexible
+    from mpp parse.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 956f1fd37ba9503f7cdf2798c4bf06c9cd233bb0
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Fri Mar 3 16:55:34 2017 +0800
+
+    rockchipmpp: fix the alignment problem with smaller base
+    
+    I have confirm that the encoder only request the align with 8
+    bytes.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 32d9c018b9ef5d4eba02c4c1030e5a4e6c23ea63
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Feb 22 15:45:36 2017 +0800
+
+    rockchipmpp: update the encoder API
+    
+    I still need to fix the align problem with the sink pad.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 7297e6757770ed708cd50b2375d3ffd542262165
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Fri Feb 24 08:50:44 2017 +0800
+
+    build: fix a error in build rules for rksink
+    
+    rksink now mix too much different elements making it hard to
+    regard as a plugin with external libraries dependencies.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit d1512e086e6eefa302c99fe5eaaf0ee1dc5fe0f3
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Feb 23 15:01:39 2017 +0800
+
+    debian: build: update debian version and changelog
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 25856409708c1c06dd478074d5cbfaa1a27b2888
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Feb 22 17:46:33 2017 +0800
+
+    build: update rules to build properly decoder plugin
+    
+    There are two rockchip mpp varians here, the rockchipmpp is
+    design for the future development. A vpudec is just a step
+    plugin.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 6390d07fc9c3152a0bad729bb7f4fc83fb6687de
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Tue Feb 14 17:20:53 2017 +0800
+
+    rockchipmpp: add video decoder in build rules
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 36674b7b663ebc7d956fff96e3105b1e0d8f2d6d
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Tue Feb 14 17:20:35 2017 +0800
+
+    rockchipmpp: register video decoder in plugin
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 0517d19be6280f04f0d81d3948860c98aeeee678
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Feb 22 14:28:13 2017 +0800
+
+    rockchipmpp: decoder: drop those invalid decoded result
+    
+    It would skip those decoded result with an error in decoding
+    processing. To pleased the guy who brings a knife to a gunfight.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit cc0df0eeb51c856bb8b39ecaf405ff0ac614dffc
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Tue Feb 14 17:16:26 2017 +0800
+
+    rockchipmpp: add video decoder
+    
+    mppvideodec is a new element for rockchip mpp. You could use this
+    element to access the hardware decoder found at Rockchip platform
+    through the rockchip mpp library.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 2e72bcd210050b25dea760dcb5cc7bf0bbc85af8
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Tue Feb 14 17:15:40 2017 +0800
+
+    rockchipmpp: decoder: add a buffer pool
+    
+    This buffer pool is designed for mpp decoder.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 768ade723abbf94c73c905713301146c55d23495
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Tue Feb 14 17:08:06 2017 +0800
+
+    rockchipmpp: add mpp buffer allocator
+    
+    It could allocate the mpp internal buffer through mpp api.
+    Then regard them as external buffer and commit them to
+    an external buffer group to be used for future decoding.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 7a643bc435f3a63bae200cfebfac81dc638b0186
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Feb 9 15:01:35 2017 +0800
+
+    rockchipmpp: add build rules for H.264 encoder
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 77731c6a0623e100262c4d83f5f338e46879846b
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Feb 9 14:50:37 2017 +0800
+
+    rockchipmpp: add H.264 encoder class
+    
+    The encoder element for H.264 format.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 2fd1dc7d4337df04ce4dfb6191bcea6a0791f970
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Feb 9 14:48:38 2017 +0800
+
+    rockchipmpp: make the mppvideoenc as the abstract class
+    
+    Although the mpp only support H.264 encoder this time, but
+    the other format would share the same buffer mechansim.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit e06be54921e54c4f7a95d62a7456333de56e83e5
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Fri Jan 20 15:26:59 2017 +0800
+
+    rockchipmpp: add to top build rule
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit b26743b65b015b8ba6cdafddf67d0fc57cb928a5
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Fri Feb 17 15:39:49 2017 +0800
+
+    vpudec: drop the invalid buffer to avoid the screen mess
+    
+    It would skip those decoded result with an error in decoding
+    processing. To pleased the guy who brings a knife to a gunfight
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 61a5686a06a207ad9422d44f9ad60fd338919dfe
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Fri Jan 20 15:58:18 2017 +0800
+
+    rockchipmpp: add build rules
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 1bf1154e20a4b16f24922f6ef0c8a008a0458582
+Author: Jacob Chen <jacob-chen@iotwrt.com>
+Date:   Thu Feb 16 18:09:39 2017 +0800
+
+    rksink: HACK: drop pixel when display 4096 vdieo
+    
+    vop don't support 4096 video
+    
+    Signed-off-by: Jacob Chen <jacob-chen@iotwrt.com>
+
+commit 0f81957689085f5260d2404db3ba3b058214f4a5
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Fri Jan 20 15:27:53 2017 +0800
+
+    [WIP]: mppvideoenc: the first ugly version
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit e2730f0ec9b9bc0f17dd22afa562a3c037d0f993
+Author: Jacob Chen <jacob-chen@iotwrt.com>
+Date:   Thu Feb 16 17:34:30 2017 +0800
+
+    build: fix egl lib link missing
+    
+    Signed-off-by: Jacob Chen <jacob-chen@iotwrt.com>
+
+commit 8dddf423231c8074bcb669296cb08092b24de75a
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Fri Jan 20 10:56:05 2017 +0800
+
+    [WIP]: mppvideoenc: a multiple thread version
+    
+    Not work, have to fallback to single thread version.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit a5e741bff775ec8c8ddcbb4a95be93b3dcd1d49d
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Feb 15 09:46:39 2017 +0800
+
+    debian: update changelog for 1.10-4
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 6d86901131125ff014eb73395629056b6f15c804
+Author: Jacob Chen <jacob-chen@iotwrt.com>
+Date:   Fri Jan 20 22:10:46 2017 +0800
+
+    build: don't build eglsink and rkximagesink without x11
+    
+    Signed-off-by: Jacob Chen <jacob-chen@iotwrt.com>
+
+commit 00cf13060841d98da0fcc3a46aa49e62fa12d2b9
+Merge: a916dfc ea1340b
+Author: geekerlw <geekerlw@gmail.com>
+Date:   Thu Feb 16 00:49:02 2017 +0000
+
+    Merge remote-tracking branch 'upsteam/rkvideo' into steven-dev
+
+commit ea1340b49ee69af837b5f241872d543c4535e862
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Feb 15 09:46:39 2017 +0800
+
+    debian: update changelog for 1.10-4
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 51143ca6e7b01eed206ef4cb7c83170702131adc
+Merge: afdf390 da39ef9
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Feb 15 09:35:05 2017 +0800
+
+    Merge remote-tracking branch 'github/rkvideo' into rkvideo
+
+commit afdf39008f080062559ddf063fbfee60cc7a2e6d
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Feb 15 09:27:02 2017 +0800
+
+    vpudec: force the rockchip mpp to exit at the last packet
+    
+    Sometimes the rockchip mpp won't be able to exit as there are
+    some buffers used by downstream element. This patch would solve
+    this problem.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit a916dfc500cb02268ede2d1860a8b45d2302041f
+Merge: bec2f39 da39ef9
+Author: geekerlw <geekerlw@gmail.com>
+Date:   Sat Feb 4 02:12:37 2017 +0000
+
+    Merge remote-tracking branch 'upsteam/rkvideo' into steven-dev
+
+commit da39ef985348f0c24b4fb54fe86e7be8e36e5f8d
+Author: Jacob Chen <jacob-chen@iotwrt.com>
+Date:   Fri Jan 20 22:10:46 2017 +0800
+
+    build: don't build eglsink and rkximagesink without x11
+    
+    Signed-off-by: Jacob Chen <jacob-chen@iotwrt.com>
+
+commit 40c45d74c0ea9173ff2e289120363a9e4eaeed72
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Fri Jan 20 09:53:54 2017 +0800
+
+    rksink: clean up the code
+    
+    Add a missing header file and a warning message.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 253e2c0d6608dbcac389ca7e9f43fbbba53af9fc
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Fri Jan 20 09:53:10 2017 +0800
+
+    vpudec: clean up the code
+    
+    I fix the code style in a few place.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit bec2f39fd4a0dbceb900ea71c6b68861bd459168
+Merge: 6a19f9e 7246b60
+Author: geekerlw <geekerlw@gmail.com>
+Date:   Fri Jan 13 03:15:29 2017 +0000
+
+    Merge remote-tracking branch 'upsteam/rkvideo' into steven-dev
+
+commit 7246b6003942ef64bc2def48ceb327bb0e395526
+Author: Jacob Chen <jacob-chen@iotwrt.com>
+Date:   Fri Jan 13 09:45:04 2017 +0800
+
+    rkvideo: rkximagesink: fix display bug in fake 4k
+    
+    we should correct size before drmmodesetplane
+    
+    Signed-off-by: Jacob Chen <jacob-chen@iotwrt.com>
+
+commit 6a19f9ed24cf02df114eac3ef836999b0eb89e15
+Merge: 876f31b 9f1b848
+Author: geekerlw <geekerlw@gmail.com>
+Date:   Sat Jan 7 09:49:42 2017 +0000
+
+    Merge remote-tracking branch 'upsteam/rkvideo' into steven-dev
+
+commit 9f1b8486f1ff5a093df15e3f1188dedafa0a04b9
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Sat Jan 7 12:54:26 2017 +0800
+
+    vpudec: disable force check for profile
+    
+    Only AVC/HEVC support that codec field, which would break
+    vp8 negotiation.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 876f31b8ff0574f79c072673fc44ae72893bc476
+Author: Steven Lee <geekerlw@gmail.com>
+Date:   Tue Jan 3 14:41:09 2017 +0800
+
+    Create README.md
+
+commit 5e893d7869fbaa5c18eadabb02016aae9b7a41ca
+Author: geekerlw <geekerlw@gmail.com>
+Date:   Tue Jan 3 10:48:52 2017 +0800
+
+    fix 10bit compile error
+
+commit d530bb9b5278f39c8e62fa58835068a189b9466e
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Fri Dec 30 10:35:29 2016 +0800
+
+    vpudec: adjust the buffer pool lifetime
+    
+    I want to get the decoded frame info from the the first frame,
+    but as there is some limitation in rockchip-mpp, we can't do
+    that.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit a6f5a0f37718c29d0ee951ffa7f41abe2119fd17
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Dec 29 15:23:42 2016 +0800
+
+    vpudec: remove unused eos filed
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 4f0db29399ceefc552d81b4a1c44ee609ddf97c0
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Dec 29 11:35:32 2016 +0800
+
+    build: debian: remove stub dbg package
+    
+    From Debian Stretch, the debhelper would create a package with
+    debug symbols itself, no need to create it manuallly.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit c8174c004437e3b2b785657690519168684e07cd
+Merge: 59d8d11 3fa37ff
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Dec 29 11:35:13 2016 +0800
+
+    Merge remote-tracking branch 'github/rkvideo' into rkvideo
+
+commit 59d8d119fc20a9f9b07f426d65f5bdfbee3e2c5d
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Dec 29 11:29:50 2016 +0800
+
+    vpudec: support dynamic update input caps
+    
+    Although it does work, but it still have the same problem when
+    suffer from the Android CTS, re-allocate buffers would be too
+    slow causing Gstreamer base drops a few frames.
+    
+    We could use the same way in Android to avoid this problem,
+    don't allocate max buffers (10 buffers) and use videorate to
+    sync or just less buffers (8 buffers).
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 3fa37ff81ca49fe1f7599f7a47704fbfa5453f50
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Wed Dec 28 12:59:20 2016 +0800
+
+    rkvideo: rkximagesink: fix display_ratio
+    
+    use 'self->xwindow->*' rather than window_*
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit aafca3d0384d97f45cef49d6548fa2649636c1a9
+Merge: 8976b31 b2e7b7c
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Wed Dec 28 09:28:37 2016 +0800
+
+    Merge branch 'rkvideo' of https://github.com/rockchip-linux/gstreamer-rockchip into rkvideo
+
+commit 8976b31d9627d8e829712a5822224a1146ece4fc
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Wed Dec 28 09:27:44 2016 +0800
+
+    rkvideo: eglglessink: use gst_data_queue_push_force
+    
+    gst_data_queue_push will block thread if queue is full
+    It will lead a deadlock when sink are rendering.
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit b2e7b7c913f1bf89ed485ca65679751ca71b98a6
+Merge: bce237c 08b4ead
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Mon Dec 26 15:36:55 2016 +0800
+
+    Merge remote-tracking branch 'github/rkvideo' into ximage_dev
+
+commit bce237cf5632864445f8e8f9a8c7165ab6a695f9
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Mon Dec 26 15:35:34 2016 +0800
+
+    TEST: kmssink: print frame count
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 4c06bf46fb69e3fb06fb68834fbeaef338cabdfb
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Mon Dec 26 11:44:44 2016 +0800
+
+    debian: install new rkvideo plugin
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 08b4ead4fbb17fd014f3e288428b4aa33284a5ec
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Mon Dec 26 09:18:13 2016 +0800
+
+    rkvideo: rename GstXImageSink to GstRkXImageSink
+    
+    To avoid conflict
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit 357e1935ce1ef8f5572889cba2fde0de376ff861
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Fri Dec 23 14:56:59 2016 +0800
+
+    build: debian: build and install new rkvideo plugin
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit e465df98c7304bad6d466a1ceef679500384da3c
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Fri Dec 23 14:55:39 2016 +0800
+
+    rkvideo: move all the video sink to this plugin package
+    
+    The all the plugins in this package now support dmabuf.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit f06c60323b44befdcf4c9602d25b73a191bcf21c
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Fri Dec 23 11:21:32 2016 +0800
+
+    kms: move to the rksink
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 9b1634ca4ac8afa0543104576c06c61dc7b1836d
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Fri Dec 23 09:20:59 2016 +0800
+
+    vpudec: remove EGL invoked video sink from this directory
+    
+    The kmssink would be removed in the future, I really don't want
+    the different thing are kept in the same place.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit f453e78f6c6f1bcb3ab926f39790b38ba854a409
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Wed Dec 21 10:47:04 2016 +0800
+
+    vpudec: rkximagesink: adjust for fake 4k ui
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit 24ee7bad192c60cf4130b482da8fa62f62cd6700
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Wed Dec 21 08:44:00 2016 +0800
+
+    Revert "vpudec: eglglessink: only use it in 1080p"
+    
+    This reverts commit 136ebee35959d4a139110d0af4fe351a2b7b6425.
+
+commit 80da97e7c3a9cebea5b84013f0e6ddc781309a7e
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Tue Dec 20 11:23:40 2016 +0800
+
+    vpudec: eglglessink: add zero-copy texture support for NV12
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit 1e13d2563a0ebb70f3dffb8b8f3926ca2ff87716
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Thu Dec 15 11:37:06 2016 +0800
+
+    vpudec: ximagesinl: clear window first when expose
+    
+    To refresh background
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit 2b955adbdfd22db9d8cdbb92104c3e4e6926093b
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Thu Dec 15 11:36:10 2016 +0800
+
+    vpudec: ximagesinl: fix buffer count
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit 8b9b848331086291629ecacd1e07b4eacf74c4d4
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Wed Dec 14 15:20:08 2016 +0800
+
+    vpudec: ximagesink: remove throttle
+    
+    too ugly...
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit cffb5f1345de5870b412c2ded4bc4c29729c9660
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Mon Dec 12 10:08:02 2016 +0800
+
+    vpudec: eglglessink: only use it in 1080p
+    
+    too slow for 4k render
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit 80e9fda8cc59b7118a8427dd33031cd16161d24c
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Mon Dec 12 10:05:01 2016 +0800
+
+    vpudec: eglglesink/ximagesink: move to child folder
+    
+    add eglglesink
+    remove xshm in ximagesink
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit e4a80885f1d602391b5593c4f9f1bf351fe0d950
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Fri Dec 9 16:23:55 2016 +0800
+
+    vpudec: ximagesink: add render rectangle support
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit 7e83ab0947a6033eed1ef1b867435f74e035eeb2
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Thu Dec 8 14:54:09 2016 +0800
+
+    vpudec: ximagesink: use a timer to throttle and redraw when paused
+    
+    Never mind ugly and hacky code.....
+    If we don't throttle, the system will crash when we drag window
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit 179235f0e513d0b9eca2ee73de85ee02e224a1c5
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Thu Dec 8 10:46:44 2016 +0800
+
+    vpudec: ximagesink:  check display position in event thread
+    
+    xserver don't give any redraw event so we have to check it and
+    epose by ourself.
+
+commit f03787a0c90e6581eca13476ad4431416953e225
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Wed Dec 7 14:05:07 2016 +0800
+
+    vpudec: ximagesink: correct stride
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit 4fdec4fb12ceed77dfc6947268823d4db2d75ab7
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Wed Dec 7 11:11:14 2016 +0800
+
+    vpudec: ximagesink: add display ratio
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit be2dbe8a87ec48c2d423d89fcbf361d717945d42
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Wed Dec 7 10:35:15 2016 +0800
+
+    vpudec: ximagesink: clean code
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit 292f148dbab0337f8fae7b428c5070065b6e09ea
+Author: Jacob Chen <jacob2.chen@rock-chips.com>
+Date:   Tue Dec 6 23:38:47 2016 +0800
+
+    vpudec: add rkximagesink
+    
+    Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+
+commit 85f6ee33ada862dcea4a915671ad5514c6bbb4f8
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Dec 22 17:56:57 2016 +0800
+
+    videorga: vpuenc: remove stub class
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit aed79c29f81832614a5fbe4a6f3b8cde8a8a5a61
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Dec 21 15:41:14 2016 +0800
+
+    build: update debian rules for 1.10-3
+    
+    The major modification is using dmabuf instead buffer with
+    vpumeta.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit ec1861a92752d2dcfe7a4d443a50c29293e34a35
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Dec 21 15:00:59 2016 +0800
+
+    vpudec: kmssink: use standard dmabuf
+    
+    The vpumeta is not more required, use dmabuf is more simple.
+    
+    The kmssink would be removed in the furture and merged back to
+    the orginal place.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit e0abbe10a0f599ddb37c51b11bdc657b946c308c
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Dec 21 14:57:55 2016 +0800
+
+    vpumeta: stop using the vpumeta data
+    
+    It won't be used any longer, as the video src buffers for vpudec
+    have been merged into standard DMA buffer and allocator class.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 815afb2120eda3610af70da1b6518b2de186a73c
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Dec 21 11:20:52 2016 +0800
+
+    vpudec: adapt new buffer operating procedures
+    
+    Welcome to the dambuf time. In this commit, bufferpool won't be
+    create untill the first input buffer in received in the element.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit d8c5666aaf6a18f7c01f00b7ee28a7b6a59f14c7
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Tue Dec 20 11:14:06 2016 +0800
+
+    vpudec: rename the vpu codec context field
+    
+    We can identify it from different type of context now.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 2ac5bbacbe10d2c4f4fea5be8f93293fbc4fefd1
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Tue Dec 13 18:20:08 2016 +0800
+
+    vpudec: build: add gstvpuallocator
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 7d5b614afcf358657d62b97380e85b599b3cc76a
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Tue Dec 6 10:54:51 2016 +0800
+
+    vpudec: use GstVpuAllocator in GstVpuBufferpool
+    
+    Most of vpu_display_pool related jobs have been moved to
+    GstVpuAllocator, we could only store those dma wrapper buffers
+    this pool.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 730a71d48fbc7f3de32d60898ce1bc747cd8ad07
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Nov 30 15:01:48 2016 +0800
+
+    vpudec: add an allocator for buffers from vpu_display_pool
+    
+    I think it is time to drop the using a private meta data to store
+    dma information and back to standard Gstreamer DMA buffer.
+    
+    Also it would be more easy to manage the buffer with helper from
+    allocator class.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 815c67009c3be161b5faabfb4d34d9a05a5f9ffd
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Mon Dec 19 16:08:10 2016 +0800
+
+    vpudec: bufferpool: remove allocate vpu_frame every times
+    
+    It is really no need to do that.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit b860c5144deb84d9d5979639e3adbc63caadc531
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Fri Dec 16 10:15:24 2016 +0800
+
+    vpudec: remove codec_data
+    
+    The gstreamer would send a complete frame not just pps and sps
+    as ffmpeg. So the codec_data won't be used anymore.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 2c586860ac4e2d70571ecb662f86f30bc0bdc4a4
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Dec 15 11:20:14 2016 +0800
+
+    build: update debian rules for 1.10-2
+    
+    The beta stage support for 10bit video is included in this version.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 9a4195d552319f25011e6c6cc4a3e168cdec341c
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Dec 15 11:13:25 2016 +0800
+
+    vpudec: fix the bug in exit and cleanup
+    
+    The mpp vpu api is a little odd, I have to follow the strict
+    rules and adjust the operation steps.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 6f6fc4f5e2bd2b681f85afa5da4cce7ce8bc0cf2
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Dec 15 11:11:18 2016 +0800
+
+    vpumeta: free vpumem from the mpp allocator
+    
+    It won't be used after commit_vpu(), so I need to free it
+    at once.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 153db303dabe24678e69e597360b0fb50e741c66
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Dec 14 16:43:07 2016 +0800
+
+    vpudec: add new method to handle state_change()
+    
+    It is required to stop the decoder output thread or it can't
+    recover from paused to playing.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 580a1522fa0b74e7871da4f903a7486a628a3818
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Dec 14 16:30:45 2016 +0800
+
+    vpudec: put the decoder getting output frame task to pad
+    
+    It could avoid duplicate reference in decoder itself and pad,
+    making it more easy to release buffer.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit b37b56fa7f77ab3366efe4ebfde3e7b7eb01e102
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Dec 14 10:47:56 2016 +0800
+
+    Revert "vpudec: not block the stop operation"
+    
+    This commit would cause the other problem, we need to find
+    a to cleanup the vpumen and detect the eos from mpp.
+    
+    This reverts commit 2fc24c493fd5b017a01b0f2c79671b5d22559dad.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 6438831356ba75cc260d1f5323952199deb4eaa2
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Mon Dec 12 18:30:15 2016 +0800
+
+    vpudec: not block the stop operation
+    
+    There are still some problem need to solved in mpp.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit f3828155eb1928bfa933b8b069b8889f2456cf2e
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Dec 8 04:51:24 2016 +0800
+
+    vpudec: support 10 bits video color depth and P010_10LE output
+    
+    There are still some problems with mpp, but I can't change the
+    behavior and design of mpp hugely, this is a final way for
+    gstreamer. Also you must rebuild both mpp and this gstreamer
+    plugin to apply this modication.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 07ab440ce5439e5fe6d9cce96656f2ed5d9ab71f
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Dec 8 04:50:29 2016 +0800
+
+    vpumeta: change the type of index field for invalid index
+    
+    It is not been used currently, but for the future development.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 7a9a19a8f52c4ce5d5349c6a292206d32c86749a
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Dec 8 04:49:44 2016 +0800
+
+    vpudec: kmssink: support P010_10LE
+    
+    There is not much work to do with kmssink, just need a new format
+    name.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 93e396b059717b85e23d1248f142a3f3258c60ce
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Dec 14 09:14:27 2016 +0800
+
+    vpudec: support flush() method in decoder
+    
+    Currently gstreamer have dropped the reset() method, and request
+    this flush() to clear up buffers before seek.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 1f61d937ac80b9517236f3ce8a80ee9794c5495d
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Tue Dec 6 14:57:17 2016 +0800
+
+    vpudec: add missing copyright information in a files
+    
+    Few minor fixup also included.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit c5f701f6da687fd7a6b841110864fc0934b4bfcc
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Fri Nov 25 16:23:30 2016 +0800
+
+    build: add debian build rules
+    
+    I am glad to announce that we could build debian package now.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 32672ba438b840e6902b48f382909540a27d8cfa
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Nov 24 18:35:45 2016 +0800
+
+    vpudec: bufferpool: set the GstVideoMeta data in allocation time
+    
+    We need the GstVideoMeta to store the video stride data to display
+    the video properly.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 5a4b1067954c39a0e4e242f9b804610f0c369d59
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Nov 24 18:33:05 2016 +0800
+
+    vpudec: display: use the GstVideoMeta to set display range
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 74261f2cebe342548c23615f7f7fcc8f8d62b77e
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Nov 24 18:17:15 2016 +0800
+
+    vpudec: decoder will offer current alignment information
+    
+    The video sink should use the information from GstVideoMeta to
+    display the video correctly.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit a2f3fa6e0b28a62542baf2faa25ea407d6f08160
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Nov 24 14:32:22 2016 +0800
+
+    vpudec: make the debug information in loop more clearly
+    
+    It would be more easy to trace the performace in pushing buffer.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 6920fbc962750cd575d71fc65fe26849ece8ac94
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Nov 23 14:27:26 2016 +0800
+
+    build: update the package name
+    
+    This produce is designed for the Rockchip platform which currently
+    only support vpu service through the Rockchip MPP.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 4efad1eeee52469f3d3993162e6af5717e95ba56
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Nov 17 12:10:19 2016 +0800
+
+    vpudec: remove global header files importing from mpp
+    
+    We shouldn't manage the other copy or fork from mpp.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 524411e13d83154ac0d49424097f72d7d9637d85
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Nov 17 10:54:48 2016 +0800
+
+    build: build the meta data and merge the kmssink to vpudec plugin
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 8d5805806d47a7ca7c33d748366f85a6a855337d
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Nov 17 10:46:14 2016 +0800
+
+    vpudec: increase the pre request buffer numbers
+    
+    I can't allocate more than 14 buffers for 4K in currently driver
+    , so I keep it to 12.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit b4b83ae19953b101a4d6e9aa0553e8fe26968c43
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Nov 17 10:33:28 2016 +0800
+
+    vpudec: build: add rules for kmssink
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit c8252e85e2e20f914840b91898a0fcd5803990e3
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Nov 16 17:39:56 2016 +0800
+
+    vpudec: fix buffer reference problem temperoraily
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit f35e0a5450232396c363c2a9c35363d7766c79cd
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Nov 16 17:38:58 2016 +0800
+
+    vpudec: register both display and decoder in the same plugin
+    
+    In order to share the meta data.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit b43d945e1672a4db66ae195f8629703d260940a9
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Nov 16 17:38:33 2016 +0800
+
+    kms: a dma meta version
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit a133c5470c06585fc32ed32474ffa1d691216b1b
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Nov 16 17:37:18 2016 +0800
+
+    vpudec: meta: update meta data API
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit c85bffbddf8ba81065c4228dea7dca60d8bf34b5
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Tue Nov 15 18:50:48 2016 +0800
+
+    vpudec: bufferpool: release buffer in correct way
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 6d0559d1e7e2421607eba752576a2669d8a87786
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Tue Nov 15 18:49:31 2016 +0800
+
+    vpudec: don't release buffer when push it to downstream
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 8b37926556f7c5d791b29806a74920484419dfa7
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Tue Nov 15 18:47:07 2016 +0800
+
+    vpudec: meta: increase the refcount after vpumen allocated
+    
+    To match the operation steps of the bufferpool in gstreamer, after
+    the alloc_buffer() from bufferpool, it would be released in order
+    to put it back to bufferpool.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit b162ab32dd5a9a6b3ddef30ca9b3a7f1600b06f8
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Tue Nov 15 14:36:13 2016 +0800
+
+    vpudec: build vpudec meta data as a common library
+    
+    I need multi-plugins share the same meta data, so it would be
+    more easy to manage in the future.
+    
+    Also the header files have been moved to the system source.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 2ba04004ed7bdc1340b357203268ad8350e8db9c
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Mon Nov 14 20:30:13 2016 +0800
+
+    vpudec: build: new meta data implemetation
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 06d99e982df720427cd89977c269197bb35b2252
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Mon Nov 14 20:29:43 2016 +0800
+
+    vpudec: bufferpool: use the new meta data interface
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 6c6c998b20aba76a1942d2478898dbdd893c4b9f
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Mon Nov 14 20:28:10 2016 +0800
+
+    vpudec: update the mpp vpu api
+    
+    Add a interface to update the vpumem information at committing
+    a buffer time.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 8b33d25d39c79321806b0b3401c11d5a033d3a3b
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Mon Nov 14 20:24:59 2016 +0800
+
+    vpudec: reconstruct the vpudec meta data
+    
+    In order to use the same meta data between different the elements
+    I should offer a standard implemtation.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 3ace5ae68b6a10424ba447a67aa20fac31681338
+Author: ayaka <ayaka@soulik.info>
+Date:   Sun Nov 13 22:13:08 2016 +0800
+
+    vpudec: add init and free function to vpudec meta data
+    
+    If you want to transmit the buffer metainfo between element
+    and element, you need to implement those function or it won't
+    be possible to free a buffer in the other element.
+    
+    Signed-off-by: ayaka <ayaka@soulik.info>
+
+commit 7654a0e8add5e80678d0e1d00b246f899ac97876
+Author: ayaka <ayaka@soulik.info>
+Date:   Sun Nov 13 21:18:15 2016 +0800
+
+    build: update the build rules and submodule
+    
+    Signed-off-by: ayaka <ayaka@soulik.info>
+
+commit 95e64e9c377d80a929b02406e8859c15c800a331
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Nov 3 09:44:44 2016 +0800
+
+    build: disable vpuenc and vpurga
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 56f6c70ac0180c4f7b36150447cc778f5d251522
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Nov 3 09:40:19 2016 +0800
+
+    build: use pkgconfig to import rockchip mpp libraries
+    
+    Both rockchip_mpp and rockhip_vpu would be accessible.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 555cb9a539acd6c698a5c3f601701a14f16847a4
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Tue Nov 1 20:01:36 2016 +0800
+
+    vpudec: fix a type mismatch in gst_vpudec_set_format
+    
+    The return value should be gboolean type.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 51bc30cb76e47e8b5e66c97dddf1c7c8296f08e4
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Wed Nov 2 14:58:42 2016 +0800
+
+    vpudec: vpubufferpool: add new debug category for it
+    
+    I don't want to use the same category with vpudec, or I would be
+    filled with vpubufferpool message in debug.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit f00196159bfd9c9534ffe33358380aaf56f4d13a
+Author: Randy Li <randy.li@rock-chips.com>
+Date:   Thu Nov 3 15:27:03 2016 +0800
+
+    vpudec: update from Jung Zhao Second
+    
+    In God we are truth.
+    
+    Signed-off-by: Randy Li <randy.li@rock-chips.com>
+
+commit 6982ef08b59be529eb3e402c3769ca015e20a5a8
+Author: Sudip Jain <sudip.jain@intel.com>
+Date:   Thu Jun 30 00:01:22 2016 +0530
+
+    vpuenc: initial vpuenc plugin based on GstVideoEncoder class
+    
+    This is an empty plugin based on GstVideoEncoder class
+    
+    Signed-off-by: Sudip Jain <sudip.jain@intel.com>
+
+commit 08a72e5e9e2dc28c424beb55d381cae0d36b405c
+Author: Sudip Jain <sudip.jain@intel.com>
+Date:   Sun Jun 12 15:33:20 2016 +0530
+
+    videorga: added videorga plugin
+    
+    Video postprocessor element
+    
+    Signed-off-by: Sudip Jain <sudip.jain@intel.com>
+
+commit 9a9346ef17e78b96b09394db8a08da0f44bf4052
+Author: Sudip Jain <sudip.jain@intel.com>
+Date:   Sun Jun 12 15:32:07 2016 +0530
+
+    vpudec: update definition of VPU_API_CMD in vpu_global.h
+    
+    Signed-off-by: Sudip Jain <sudip.jain@intel.com>
+
+commit 38c03e0920dd9697799bcca59a5bb3b20f03770d
+Author: Sudip Jain <sudip.jain@intel.com>
+Date:   Wed Jun 1 15:16:49 2016 +0530
+
+    vpudec: enabled hardware accelerated decoding using Rockchip's video processing solution
+    
+    This release includes developement of the hardware decoder
+    plugin. It use the kernel vpu driver (drivers/misc/rockchip/vpu)
+    and Rockchip's libvpu API's for decoding.
+    
+    Following are the features list added in this patch:
+    
+    1. Zero Copy: The decoder uses zero copy mechanism from source to sink.
+    
+    2. Multithreading Support: Created different threads for dequeueing
+    decoded frames to improve performance and parallelize operation with
+    downstream postprocessor element. For 1080p streams, fps > 50 fps
+    is calculated.
+    
+    3. Multicodec Support: Enabled MPEG-2/4, VP8, H.264 and H.265 codecs.
+    
+    4. Pool: Enabled vpudecpool for buffer recycling and memory management.
+    
+    TODO:
+    - Validate H.265 stream with dtsi modifications
+    
+    Change-Id: I7bd9c52ea94ec8c39df9104713f5b0316392fab4
+    Signed-off-by: Sudip Jain <sudip.jain@intel.com>
+
+commit 0cde285c584318834e90a048ff6d7304f2f901f2
+Author: Sudip Jain <sudip.jain@intel.com>
+Date:   Fri Apr 22 16:26:09 2016 +0530
+
+    First plugin version
+    
+    This contains vpudec  plugin
+    
+    Signed-off-by: Sudip Jain <sudip.jain@intel.com>

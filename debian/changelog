@@ -1,4 +1,4 @@
-gstreamer1.0-rockchip (1.10-5) xenial; urgency=medium
+gstreamer1.0-rockchip (1.10-5-1ubuntu1) xenial; urgency=medium
 
   [ Jacob Chen ]
   * build: fix egl lib link missing

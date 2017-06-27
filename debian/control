@@ -13,6 +13,7 @@ Build-Depends:
 	libgtk-3-dev,
 	liborc-0.4-dev,
 	librockchip-mpp-dev,
+	libdrm-rockchip1,
 	libgstreamer1.0-dev,
 	libgstreamer-plugins-base1.0-dev
 Standards-Version: 3.9.8

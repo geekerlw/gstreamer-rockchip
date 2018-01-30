@@ -43,17 +43,19 @@ static GstStaticPadTemplate gst_mpp_video_dec_sink_template =
     GST_PAD_ALWAYS,
     GST_STATIC_CAPS ("video/x-h264,"
         "stream-format = (string) { byte-stream },"
-        "alignment = (string) { au }"
+        "alignment = (string) { au },"
+        "parsed = (boolean) true"
         ";"
         "video/x-h265,"
         "stream-format = (string) { byte-stream },"
-        "alignment = (string) { au }"
+        "alignment = (string) { au },"
+        "parsed = (boolean) true"
         ";"
         "video/mpeg,"
         "mpegversion = (int) { 1, 2, 4 },"
-        "systemstream = (boolean) false,"
-        "parsed = (boolean) true" ";"
-        "video/x-vp8" ";" "video/x-vp9" ";" "video/x-h263" ";")
+        "parsed = (boolean) true,"
+        "systemstream = (boolean) false"
+        ";" "video/x-vp8" ";" "video/x-vp9" ";")
     );
 
 static GstStaticPadTemplate gst_mpp_video_dec_src_template =
@@ -65,7 +67,11 @@ static GstStaticPadTemplate gst_mpp_video_dec_src_template =
         "width  = (int) [ 32, 4096 ], " "height =  (int) [ 32, 4096 ]"
         ";"
         "video/x-raw, "
-        "format = (string) P010_10LEC, "
+        "format = (string) NV16, "
+        "width  = (int) [ 32, 4096 ], " "height =  (int) [ 32, 4096 ]"
+        ";"
+        "video/x-raw, "
+        "format = (string) P010_10LE, "
         "width  = (int) [ 32, 4096 ], " "height =  (int) [ 32, 4096 ]" ";")
     );
 
@@ -85,6 +91,7 @@ to_mpp_codec (GstStructure * s)
     gint mpegversion = 0;
     if (gst_structure_get_int (s, "mpegversion", &mpegversion)) {
       switch (mpegversion) {
+        case 1:
         case 2:
           return MPP_VIDEO_CodingMPEG2;
           break;
@@ -112,6 +119,13 @@ mpp_frame_type_to_gst_video_format (MppFrameFormat fmt)
   switch (fmt) {
     case MPP_FMT_YUV420SP:
       return GST_VIDEO_FORMAT_NV12;
+      break;
+    case MPP_FMT_YUV420SP_10BIT:
+      /* FIXME it is platform special pixel format */
+      return GST_VIDEO_FORMAT_P010_10LE;
+      break;
+    case MPP_FMT_YUV422SP:
+      return GST_VIDEO_FORMAT_NV16;
       break;
     default:
       return GST_VIDEO_FORMAT_UNKNOWN;
@@ -224,15 +238,21 @@ gst_mpp_video_to_frame_format (MppFrame mframe, GstVideoInfo * info,
   info->width = mpp_frame_get_width (mframe);
   info->height = mpp_frame_get_height (mframe);
   info->interlace_mode = mpp_frame_mode_to_gst_interlace_mode (mode);
-  /* FIXME only work for the buffer with only two planes */
+
   hor_stride = mpp_frame_get_hor_stride (mframe);
-  info->stride[0] = hor_stride;
-  info->stride[1] = hor_stride;
   ver_stride = mpp_frame_get_ver_stride (mframe);
-  info->offset[0] = 0;
-  info->offset[1] = info->stride[0] * ver_stride;
-  /* FIXME only work for YUV 4:2:0 */
-  info->size = (info->stride[0] * ver_stride) * 3 / 2;
+  for (guint i = 0; i < GST_VIDEO_INFO_N_PLANES (info); i++) {
+    info->stride[i] = hor_stride;
+    /* FIXME only work for two planes */
+    if (i == 0)
+      info->offset[0] = 0;
+    else
+      info->offset[i] = info->offset[i - 1] + hor_stride * ver_stride;
+  }
+
+  for (guint i = 0; i < GST_VIDEO_INFO_N_COMPONENTS (info); i++)
+    info->size += GST_VIDEO_FORMAT_INFO_SCALE_WIDTH (info->finfo, i, hor_stride)
+        * GST_VIDEO_FORMAT_INFO_SCALE_HEIGHT (info->finfo, i, ver_stride);
   mv_size = info->size * 2 / 6;
   info->size += mv_size;
 
@@ -306,7 +326,7 @@ gst_mpp_video_dec_stop (GstVideoDecoder * decoder)
 
   /* Kill mpp output thread to stop */
   gst_mpp_video_dec_unlock (self);
-  gst_mpp_video_dec_sendeos (decoder);
+  self->mpi->reset (self->mpp_ctx);
   gst_pad_stop_task (decoder->srcpad);
 
   GST_VIDEO_DECODER_STREAM_LOCK (decoder);
@@ -317,7 +337,6 @@ gst_mpp_video_dec_stop (GstVideoDecoder * decoder)
   g_assert (g_atomic_int_get (&self->active) == FALSE);
 
   /* Release all the internal references of the buffer */
-  self->mpi->reset (self->mpp_ctx);
   if (self->pool) {
     gst_object_unref (self->pool);
     self->pool = NULL;
@@ -335,6 +354,8 @@ static gboolean
 gst_mpp_video_dec_flush (GstVideoDecoder * decoder)
 {
   GstMppVideoDec *self = GST_MPP_VIDEO_DEC (decoder);
+  gint ret = 0;
+  ret = self->mpi->reset (self->mpp_ctx);
 
   /* Ensure the processing thread has stopped for the reverse playback
    * discount case */
@@ -347,7 +368,7 @@ gst_mpp_video_dec_flush (GstVideoDecoder * decoder)
   self->output_flow = GST_FLOW_OK;
 
   gst_mpp_video_dec_unlock_stop (self);
-  return !self->mpi->reset (self->mpp_ctx);
+  return !ret;
 }
 
 static gboolean
@@ -476,8 +497,9 @@ gst_mpp_video_dec_handle_frame (GstVideoDecoder * decoder,
   GstBufferPool *pool = NULL;
   GstMapInfo mapinfo = { 0, };
   GstFlowReturn ret = GST_FLOW_OK;
-  MppPacket mpkt = NULL;
   gboolean processed = FALSE;
+  GstBuffer *tmp;
+  MppPacket mpkt = NULL;
   MPP_RET mret = 0;
 
   GST_DEBUG_OBJECT (self, "Handling frame %d", frame->system_frame_number);
@@ -502,24 +524,39 @@ gst_mpp_video_dec_handle_frame (GstVideoDecoder * decoder,
     codec_data = self->input_state->codec_data;
     if (codec_data) {
       gst_buffer_ref (codec_data);
-    } else {
-      codec_data = gst_buffer_ref (frame->input_buffer);
-      processed = TRUE;
+      gst_buffer_map (codec_data, &mapinfo, GST_MAP_READ);
+      mpp_packet_init (&mpkt, mapinfo.data, mapinfo.size);
+      mpp_packet_set_extra_data (mpkt);
+
+      GST_VIDEO_DECODER_STREAM_UNLOCK (decoder);
+      if (self->mpi->decode_put_packet (self->mpp_ctx, mpkt)) {
+        gst_buffer_unmap (codec_data, &mapinfo);
+        goto send_stream_error;
+      }
+      GST_VIDEO_DECODER_STREAM_LOCK (decoder);
+
+      mpp_packet_deinit (&mpkt);
+      gst_buffer_unmap (codec_data, &mapinfo);
+      gst_buffer_unref (codec_data);
     }
+    codec_data = gst_buffer_ref (frame->input_buffer);
+    processed = TRUE;
 
     gst_buffer_map (codec_data, &mapinfo, GST_MAP_READ);
     mpp_packet_init (&mpkt, mapinfo.data, mapinfo.size);
-    /* For those DMA buffers, the mapping would be destroy at once */
-    gst_buffer_unmap (codec_data, &mapinfo);
 
     GST_VIDEO_DECODER_STREAM_UNLOCK (decoder);
     do {
       mret = self->mpi->decode_put_packet (self->mpp_ctx, mpkt);
     } while (MPP_ERR_BUFFER_FULL == mret);
-    if (mret)
+    if (mret) {
+      gst_buffer_unmap (codec_data, &mapinfo);
+      gst_buffer_unref (codec_data);
       goto send_stream_error;
+    }
 
     mpp_packet_deinit (&mpkt);
+    gst_buffer_unmap (codec_data, &mapinfo);
     gst_buffer_unref (codec_data);
 
     self->mpi->control (self->mpp_ctx, MPP_SET_OUTPUT_BLOCK,
@@ -577,7 +614,6 @@ gst_mpp_video_dec_handle_frame (GstVideoDecoder * decoder,
   if (!processed) {
     gst_buffer_map (frame->input_buffer, &mapinfo, GST_MAP_READ);
     mpp_packet_init (&mpkt, mapinfo.data, mapinfo.size);
-    gst_buffer_unmap (frame->input_buffer, &mapinfo);
 
   retry:
     GST_VIDEO_DECODER_STREAM_UNLOCK (decoder);
@@ -588,19 +624,28 @@ gst_mpp_video_dec_handle_frame (GstVideoDecoder * decoder,
       if (gst_pad_get_task_state (GST_VIDEO_DECODER_SRC_PAD (self)) !=
           GST_TASK_STARTED) {
         ret = self->output_flow;
+        gst_buffer_unmap (frame->input_buffer, &mapinfo);
         goto drop;
       }
       goto retry;
-    } else if (mret)
+    } else if (mret) {
+      gst_buffer_unmap (frame->input_buffer, &mapinfo);
       goto send_stream_error;
+    }
 
     mpp_packet_deinit (&mpkt);
-    /* No need to keep input arround */
-    gst_buffer_replace (&frame->input_buffer, NULL);
+    gst_buffer_unmap (frame->input_buffer, &mapinfo);
   }
 
-  gst_video_codec_frame_unref (frame);
+  /* No need to keep input arround */
+  tmp = frame->input_buffer;
+  frame->input_buffer = gst_buffer_new ();
+  gst_buffer_copy_into (frame->input_buffer, tmp,
+      GST_BUFFER_COPY_FLAGS | GST_BUFFER_COPY_TIMESTAMPS |
+      GST_BUFFER_COPY_META, 0, 0);
+  gst_buffer_unref (tmp);
 
+  gst_video_codec_frame_unref (frame);
   return ret;
 
   /* ERRORS */
@@ -720,7 +765,7 @@ gst_mpp_video_dec_class_init (GstMppVideoDecClass * klass)
 
   gst_element_class_set_static_metadata (element_class,
       "Rockchip's MPP video decoder", "Decoder/Video",
-      "Multicodec (MPEG-2/4 / AVC / VP8 / HEVC) hardware decoder",
+      "Multicodec (HEVC / AVC / VP8 / VP9) hardware decoder",
       "Randy Li <randy.li@rock-chips.com>");
 }
 

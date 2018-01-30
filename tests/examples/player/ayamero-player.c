@@ -28,6 +28,8 @@ typedef struct _PlayerData
   GstElement *pipeline;
   GMainLoop *main_loop;
   GList *playlist;
+  GstElement *vsink;
+  GstElement *asink;
 } PlayerData;
 
 static gboolean
@@ -40,6 +42,7 @@ exit_the_current_video (PlayerData * data)
     data->playlist = list;
     gst_element_set_state (data->pipeline, GST_STATE_NULL);
     g_object_set (G_OBJECT (data->pipeline), "uri", uri, NULL);
+    g_print ("Now playing: %s\n", uri);
     gst_element_set_state (data->pipeline, GST_STATE_PLAYING);
   } else {
     g_main_loop_quit (data->main_loop);
@@ -77,12 +80,37 @@ handle_message (GstBus * bus, GstMessage * msg, PlayerData * data)
           &pending_state);
     }
       break;
+    case GST_MESSAGE_ASYNC_DONE:{
+      g_print ("async done.\n");
+    }
+      break;
     default:
       break;
   }
 
   /* We want to keep receiving messages */
   return TRUE;
+}
+
+static gboolean
+seek_to_offsets (GstElement * pipeline, gint64 seconds)
+{
+  gint64 pos;
+  GstState state;
+
+  if (GST_STATE_CHANGE_SUCCESS != gst_element_get_state (pipeline, &state, NULL,
+          GST_SECOND))
+    return FALSE;
+  if (state != GST_STATE_PLAYING && state != GST_STATE_PAUSED)
+    return FALSE;
+
+  if (gst_element_query_position (pipeline, GST_FORMAT_TIME, &pos)) {
+    return gst_element_seek_simple (pipeline, GST_FORMAT_TIME,
+        GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
+        pos + seconds * GST_SECOND);
+  }
+
+  return FALSE;
 }
 
 static gboolean
@@ -109,13 +137,23 @@ keypress (GIOChannel * source, GIOCondition condition, PlayerData * data)
       }
         break;
       case 'p':{
-        GstState cur;
-        cur = GST_STATE (data->pipeline);
-        if (cur == GST_STATE_PLAYING)
+        GstState state;
+
+        if (GST_STATE_CHANGE_SUCCESS != gst_element_get_state
+            (data->pipeline, &state, NULL, GST_SECOND))
+          break;
+
+        if (state == GST_STATE_PLAYING)
           gst_element_set_state (data->pipeline, GST_STATE_PAUSED);
-        if (cur == GST_STATE_PAUSED)
+        if (state == GST_STATE_PAUSED)
           gst_element_set_state (data->pipeline, GST_STATE_PLAYING);
       }
+        break;
+      case 'f':
+        seek_to_offsets (data->pipeline, 10L);
+        break;
+      case 'b':
+        seek_to_offsets (data->pipeline, -5L);
         break;
       default:
         break;
@@ -141,10 +179,13 @@ parse_video_path (PlayerData * data, gchar * path)
     }
     do {
       file = g_dir_read_name (dir);
-      if (file) {
+      uri = g_strdup_printf ("%s/%s", path, file);
+      if (g_file_test (uri, G_FILE_TEST_EXISTS)) {
+        g_free (uri);
         uri = g_strdup_printf ("file://%s/%s", path, file);
         data->playlist = g_list_prepend (data->playlist, uri);
       } else if (errno) {
+        g_free (uri);
         g_print ("Error list file in directory %d\n", errno);
         break;
       }
@@ -162,6 +203,10 @@ parse_video_path (PlayerData * data, gchar * path)
 
     file = g_strdup_printf ("file://%s", path);
     data->playlist = g_list_prepend (data->playlist, file);
+    data->playlist = g_list_prepend (data->playlist, NULL);
+    data->playlist = g_list_reverse (data->playlist);
+    data->playlist = g_list_last (data->playlist);
+
     return TRUE;
   }
   return FALSE;
@@ -175,12 +220,18 @@ main (gint argc, gchar * argv[])
   GstBus *bus = NULL;
   GError *err = NULL;
 
-  gchar *uri = NULL, *path = NULL;
+  gchar *uri = NULL, *path = NULL, *vsink = NULL, *asink = NULL;
   GOptionEntry options[] = {
     {"uri", '\0', 0, G_OPTION_ARG_STRING, &uri, "video source URI", NULL}
     ,
     {"path", '\0', 0, G_OPTION_ARG_STRING, &path,
         "the path of a video file or directory", NULL}
+    ,
+    {"video-sink", '\0', 0, G_OPTION_ARG_STRING, &vsink,
+        "the video sink", NULL}
+    ,
+    {"audio-sink", '\0', 0, G_OPTION_ARG_STRING, &asink,
+        "the audio sink", NULL}
     ,
     {NULL}
   };
@@ -210,12 +261,17 @@ main (gint argc, gchar * argv[])
   if (uri == NULL) {
     if (!parse_video_path (&data, path))
       return -1;
-    uri = data.playlist->data;
   }
+
+  if (vsink != NULL)
+    data.vsink = gst_element_factory_make (vsink, "video-sink");
+  if (asink != NULL)
+    data.asink = gst_element_factory_make (asink, "audio-sink");
 
   data.main_loop = g_main_loop_new (NULL, FALSE);
   data.pipeline = gst_element_factory_make ("playbin", "play");
-  g_object_set (G_OBJECT (data.pipeline), "uri", uri, NULL);
+  g_object_set (G_OBJECT (data.pipeline), "video-sink", data.vsink, NULL);
+  g_object_set (G_OBJECT (data.pipeline), "audio-sink", data.asink, NULL);
 
   io_stdin = g_io_channel_unix_new (fileno (stdin));
   g_io_add_watch (io_stdin, G_IO_IN, (GIOFunc) keypress, (gpointer) & data);
@@ -223,8 +279,7 @@ main (gint argc, gchar * argv[])
   bus = gst_element_get_bus (data.pipeline);
   gst_bus_add_watch (bus, (GstBusFunc) handle_message, &data);
   /* Set the pipeline to "playing" state */
-  g_print ("Now playing: %s\n", uri);
-  gst_element_set_state (data.pipeline, GST_STATE_PLAYING);
+  exit_the_current_video ((gpointer) & data);
 
   /* Looping */
   g_main_loop_run (data.main_loop);

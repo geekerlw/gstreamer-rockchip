@@ -63,6 +63,7 @@ static const struct
   DEF_FMT (NV21, NV21),
   DEF_FMT (NV16, NV16),
   /* FIXME should be renamed to P010_* */
+  DEF_FMT (NV12_10, P010_10LE),
 
 #undef DEF_FMT
 };
